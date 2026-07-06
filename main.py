@@ -16,9 +16,30 @@ def press(actual, display):
     btn_result.insert(0, display_expression)
 
 def evaluate_expression():
-    global expression
-    result = eval(expression)
-    print(result)
+    global expression, display_expression
+    result = str(eval(expression))
+    expression = result 
+    display_expression = result
+    btn_result.delete(0, tk.END)
+    btn_result.insert(0, display_expression)
+
+def backspace():
+    global expression, display_expression
+    if not expression:
+        return
+    expression = expression[:-1]
+    display_expression = display_expression[:-1]
+
+    btn_result.delete(0, tk.END)
+    btn_result.insert(0, display_expression)
+
+def clear():
+    global expression, display_expression
+
+    expression = ""
+    display_expression = ""
+
+    btn_result.delete(0, tk.END)
 
 root.grid_rowconfigure(0 , weight=1)
 root.grid_rowconfigure(1 , weight=1)
@@ -70,11 +91,11 @@ btn_3.grid(row = 4, column = 2, sticky = "news")
 btn_product = tk.Button(text = "x", font = ("arial" , 15), border = "5", command = lambda : press("*","x"))
 btn_product.grid(row =4, column = 3, sticky = "news")
 
-btn_backspace = tk.Button(text = "⌫", font = ("arial" , 15))
+btn_backspace = tk.Button(text = "⌫", font = ("arial" , 15), border = "5", command = backspace)
 btn_backspace.grid(row =5, column = 0, sticky = "news")
 btn_0 = tk.Button(text = "0", font = ("arial" , 15), border = "5", command = lambda : press("0","0"))
 btn_0.grid(row = 5, column = 1, sticky = "news")
-btn_dot = tk.Button(text = ".", font = ("arial" , 15), border = "5", command = lambda : press(".","."))
+btn_dot = tk.Button(text = "AC", font = ("arial" , 15), border = "5", command = clear)
 btn_dot.grid(row = 5, column = 2, sticky = "news")
 btn_equal = tk.Button(text = "=", font = ("arial" , 15), border = "5", command = evaluate_expression)
 btn_equal.grid(row =5, column = 3, sticky = "news")
